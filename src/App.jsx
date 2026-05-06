@@ -1,28 +1,28 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import Sidebar from './components/Sidebar';
+import Chart from './components/Chart';
+import Card from './components/Card';
+import './styles/globals.css';
+
+const SAMPLE_DATA = [12, 19, 8, 25, 14, 32, 21, 28, 17, 30];
 
 function App() {
-  const [metrics, setMetrics] = useState({ users: 0, revenue: 0, orders: 0 });
-
-  useEffect(() => {
-    setMetrics({ users: 1243, revenue: 48200, orders: 385 });
-  }, []);
+  const [page, setPage] = useState('dashboard');
 
   return (
     <div className="app">
-      <header><h1>Dashboard</h1></header>
-      <main className="grid">
-        <div className="card">
-          <h3>Users</h3>
-          <p className="metric">{metrics.users.toLocaleString()}</p>
+      <Sidebar active={page} onNavigate={setPage} />
+      <main className="main-content">
+        <header><h1>Dashboard</h1></header>
+        <div className="grid">
+          <Card title="Users" value="1,243" change="+12%" />
+          <Card title="Revenue" value="$48,200" change="+8%" />
+          <Card title="Orders" value="385" change="+23%" />
         </div>
-        <div className="card">
-          <h3>Revenue</h3>
-          <p className="metric">${metrics.revenue.toLocaleString()}</p>
-        </div>
-        <div className="card">
-          <h3>Orders</h3>
-          <p className="metric">{metrics.orders.toLocaleString()}</p>
-        </div>
+        <section className="chart-section">
+          <h2>Activity</h2>
+          <Chart data={SAMPLE_DATA} width={600} height={200} />
+        </section>
       </main>
     </div>
   );
